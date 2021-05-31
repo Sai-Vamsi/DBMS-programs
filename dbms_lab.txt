@@ -1,0 +1,130 @@
+SQL> create table EMP(EMPNO INT, ENAME varchar(15), Job char(15), MGR INT, HIREDDATE date, SAL INT, COMM INT, DEPTNO INT);
+
+Table created.
+
+SQL> create table(DEPTNO INT, DNAME varchar(15), LOC varchar(15));
+create table(DEPTNO INT, DNAME varchar(15), LOC varchar(15))
+            *
+ERROR at line 1:
+ORA-00903: invalid table name
+
+
+SQL> create table DEPT(DEPTNO INT, DNAME varchar(15), LOC varchar(15));
+
+Table created.
+
+SQL> desc EMP;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EMPNO                                              NUMBER(38)
+ ENAME                                              VARCHAR2(15)
+ JOB                                                CHAR(15)
+ MGR                                                NUMBER(38)
+ HIREDDATE                                          DATE
+ SAL                                                NUMBER(38)
+ COMM                                               NUMBER(38)
+ DEPTNO                                             NUMBER(38)
+
+SQL> desc DEPT;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ DEPTNO                                             NUMBER(38)
+ DNAME                                              VARCHAR2(15)
+ LOC                                                VARCHAR2(15)
+
+SQL> alter table EMP MODIFY(ENAME varchar(15) constraint NL NOT NULL);
+
+Table altered.
+
+SQL> alter table EMP MODIFY(Job char(15) constraint NL1 NOT NULL);
+
+Table altered.
+
+SQL> desc EMP;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EMPNO                                              NUMBER(38)
+ ENAME                                     NOT NULL VARCHAR2(15)
+ JOB                                       NOT NULL CHAR(15)
+ MGR                                                NUMBER(38)
+ HIREDDATE                                          DATE
+ SAL                                                NUMBER(38)
+ COMM                                               NUMBER(38)
+ DEPTNO                                             NUMBER(38)
+
+SQL> alter table EMP ADD(constraint PK primary key(EMPNO));
+
+Table altered.
+
+SQL> alter table EMP ADD(constraint CK check(EMPNO>=1000 AND EMPNO<=2000));
+
+Table altered.
+
+SQL> desc EMP;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EMPNO                                     NOT NULL NUMBER(38)
+ ENAME                                     NOT NULL VARCHAR2(15)
+ JOB                                       NOT NULL CHAR(15)
+ MGR                                                NUMBER(38)
+ HIREDDATE                                          DATE
+ SAL                                                NUMBER(38)
+ COMM                                               NUMBER(38)
+ DEPTNO                                             NUMBER(38)
+
+SQL> alter table EMP ADD(constraint FK foreign key(DEPTNO) references DEPT(DEPTNO));
+alter table EMP ADD(constraint FK foreign key(DEPTNO) references DEPT(DEPTNO))
+                                                                      *
+ERROR at line 1:
+ORA-02270: no matching unique or primary key for this column-list
+
+
+SQL> alter table DEPT ADD(constraint PK1 primary key(DEPTNO));
+
+Table altered.
+
+SQL> desc DEPT;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ DEPTNO                                    NOT NULL NUMBER(38)
+ DNAME                                              VARCHAR2(15)
+ LOC                                                VARCHAR2(15)
+
+SQL> alter table EMP ADD(constraint FK foreign key(DEPTNO) references DEPT(DEPTNO));
+
+Table altered.
+
+SQL> desc EMP;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EMPNO                                     NOT NULL NUMBER(38)
+ ENAME                                     NOT NULL VARCHAR2(15)
+ JOB                                       NOT NULL CHAR(15)
+ MGR                                                NUMBER(38)
+ HIREDDATE                                          DATE
+ SAL                                                NUMBER(38)
+ COMM                                               NUMBER(38)
+ DEPTNO                                             NUMBER(38)
+
+SQL> alter table DEPT ADD(constraint UC unique(DNAME));
+
+Table altered.
+
+SQL> desc EMP;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EMPNO                                     NOT NULL NUMBER(38)
+ ENAME                                     NOT NULL VARCHAR2(15)
+ JOB                                       NOT NULL CHAR(15)
+ MGR                                                NUMBER(38)
+ HIREDDATE                                          DATE
+ SAL                                                NUMBER(38)
+ COMM                                               NUMBER(38)
+ DEPTNO                                             NUMBER(38)
+
+SQL> desc DEPT;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ DEPTNO                                    NOT NULL NUMBER(38)
+ DNAME                                              VARCHAR2(15)
+ LOC                                                VARCHAR2(15)
